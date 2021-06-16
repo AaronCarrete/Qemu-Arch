@@ -1,0 +1,25 @@
+1. Instala los siguientes paquetes
+	$ sudo pacman -S virt-manager qemu qemu-arch-extra ovmf ebtables dnsmasq bridge-utils openbsd-netcat
+
+2. Habilitamos los servicios de libvirtd
+	$ sudo systemctl enable libvirtd.service
+	$ sudo systemctl start libvirtd.service
+
+3. Creamos un archivo de nombre br10.xml
+		// Yo usaré vim como editor
+	$ sudo vim br10.xml
+   Aquí pegamos el contenido del archivo de mi github 
+
+4. Definimos la conexión para el virsh 
+	$ sudo virsh net-define br10.xml
+	$ sudo virsh net-start br10
+	$ sudo virsh net-autostart br10
+
+
+Tú sabrás el uso que le das a tus máquinas virtuales, pero en todas, antes de iniciar/crear una, en donde dice network, seleccionas br10
+
+
+POSIBLE ERROR: 
+	-Unable to connect to libvirt qemu:///system.authentication unavailable: no polkit agent available to authenticate action 'org.libvirt.unix.manage'
+		SOLUCIÓN:
+			$ sudo usermod --append --groups libvirt `whoami`
